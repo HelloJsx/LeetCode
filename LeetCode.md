@@ -473,4 +473,54 @@ class Solution {
 ```
 
 
+### 106. 从中序与后序遍历序列构造二叉树
+
+```java
+class Solution {
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        return build(inorder,postorder,0,inorder.length - 1,postorder.length - 1);
+    }
+
+    public TreeNode build(int[] inorder,int[] postorder,int left,int right,int root){
+        if(left > right) return null;
+        TreeNode node = new TreeNode(postorder[root]);
+        int index = 0;
+        for(int i = left;i <= right;i++){
+            if(inorder[i] == postorder[root]){
+                index = i;
+                break;
+            }
+        }
+        node.left = build(inorder,postorder,left,index - 1,root - 1 - (right - index));
+        node.right = build(inorder,postorder,index + 1,right,root - 1);
+        return node;
+    }
+}
+```
+
+
+
+### 105. 从前序与中序遍历序列构造二叉树
+
+```java
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if(preorder.length == 0 || inorder.length == 0){
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[0]);
+        for(int i = 0;i < preorder.length;i++){
+            if(preorder[0] == inorder[i]){
+                root.left = buildTree(Arrays.copyOfRange(preorder,1,i + 1),Arrays.copyOfRange(inorder,0,i));
+                root.right = buildTree(Arrays.copyOfRange(preorder,i + 1,preorder.length),Arrays.copyOfRange(inorder,i + 1,inorder.length));
+                break;
+            }
+        }
+        return root;
+    }
+}
+```
+
+
+
 
