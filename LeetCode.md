@@ -523,4 +523,178 @@ class Solution {
 
 
 
+### 654.最大二叉树
+
+```java
+class Solution {
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        return traversal(nums,0,nums.length);
+    }
+
+    public TreeNode traversal(int[] nums,int left,int right){
+        if(left >= right) return null;
+
+        int maxValueIndex = left;
+        for(int i = left + 1;i < right;++i){
+            if(nums[i] > nums[maxValueIndex]) maxValueIndex = i;
+        }
+
+        TreeNode root = new TreeNode(nums[maxValueIndex]);
+
+        root.left = traversal(nums,left,maxValueIndex);
+        root.right = traversal(nums,maxValueIndex + 1,right);
+
+        return root;
+    }
+}
+```
+
+
+
+### 617.合并二叉树
+
+```java
+class Solution {
+    public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
+        if(root1 == null) return root2;
+        if(root2 == null) return root1;
+        root1.val += root2.val;
+        root1.left = mergeTrees(root1.left,root2.left);
+        root1.right = mergeTrees(root1.right,root2.right);
+        return root1;
+    }
+}
+```
+
+
+
+### 700.二叉搜索树中的搜索
+
+```java
+class Solution {
+    public TreeNode searchBST(TreeNode root, int val) {
+        if(root == null || root.val == val) return root;
+        if(root.val > val) return searchBST(root.left,val);
+        if(root.val < val) return searchBST(root.right,val);
+        return null;
+    }
+}
+```
+
+
+
+### 98.验证二叉搜索树
+
+```java
+class Solution {
+    TreeNode pre = null;
+    public boolean isValidBST(TreeNode root) {
+        if(root == null) return true;
+        boolean left = isValidBST(root.left);
+
+        if(pre != null && pre.val >= root.val) return false;
+        pre = root;
+
+        boolean right = isValidBST(root.right);
+        return left && right;
+    }
+}
+```
+
+
+
+### 530. 二叉搜索树的最小绝对差
+
+```java
+class Solution {
+    int result = Integer.MAX_VALUE;
+    TreeNode pre;
+
+    public void traserval(TreeNode cur){
+        if(cur == null) return;
+        traserval(cur.left);
+        if(pre != null){
+            result = Math.min(result,Math.abs(cur.val - pre.val));
+        }
+        pre = cur;
+        traserval(cur.right);
+    }
+
+    public int getMinimumDifference(TreeNode root) {
+        traserval(root);
+        return result;
+    }
+
+}
+```
+
+
+
+### 501. 二叉搜索树中的众数
+
+```java
+class Solution {
+    int maxCount;
+    int count;
+    TreeNode pre = new TreeNode();
+    List<Integer> result = new ArrayList<>();
+
+    public int[] findMode(TreeNode root) {
+        count = 0;
+        maxCount = 0;
+        TreeNode pre = null;
+        serchBST(root);
+        int[] res = new int[result.size()];
+        for(int i = 0; i < result.size();i++){
+            res[i] = result.get(i);
+        }
+        return res;
+    }
+
+    public void serchBST(TreeNode cur){
+        if(cur == null) return;
+        serchBST(cur.left);
+        if(pre == null){
+            count = 1;
+        } else if (pre.val == cur.val) {
+            count++;
+        } else {
+            count = 1;
+        }
+        pre = cur;
+
+        if(count == maxCount){
+            result.add(cur.val);
+        }
+
+        if(count > maxCount){
+            maxCount = count;
+            result.clear();
+            result.add(cur.val);
+        }
+        serchBST(cur.right);
+        return;
+    }
+}
+```
+
+
+
+### 236. 二叉树的最近公共祖先
+
+```java
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == q || root == p || root == null) return root;
+        TreeNode left = lowestCommonAncestor(root.left,p,q);
+        TreeNode right = lowestCommonAncestor(root.right,p,q);
+        if(left != null && right != null) return root;
+        if(left == null) return right;
+        return left;
+    }
+}
+```
+
+
+
 
