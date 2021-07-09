@@ -709,6 +709,75 @@ class Solution {
 }
 ```
 
+## Hash
+
+### 1.两数之和
+
+暴力破解法
+
+```java
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        for(int i = 0;i < nums.length;i++){
+            for(int j = i + 1;j < nums.length;j++){
+                if(nums[i] + nums[j] == target){
+                    return new int[]{i,j};
+                }
+            }
+        }
+        return new int[0];
+    }
+}
+```
+
+hash法
+
+```java
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int[] result = new int[2];
+        HashMap<Integer,Integer> hash = new HashMap<Integer,Integer>();
+
+        for(int i = 0;i < nums.length;i++){
+            hash.put(nums[i],i);
+        }
+
+        for(int j = 0;j < nums.length;j++){
+            int diff = target - nums[j];
+            if(hash.containsKey(diff) && hash.get(diff) != j){
+                result[0] = j;
+                result[1] = hash.get(diff);
+                return result;
+            }
+        }
+        return result;
+    }
+}
+```
+
+
+
+## 链表
+
+### 2.两数相加
+
+递归
+
+```java
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        return this.result(l1,l2,0);
+    }
+    public ListNode result(ListNode l1,ListNode l2,int a){
+        if(l1 == null && l2 == null) return a == 0?null:new ListNode(a);
+        if(l1 != null) {a+= l1.val;l1 = l1.next;}
+        if(l2 != null) {a+= l2.val;l2 = l2.next;}
+        return new ListNode(a%10,result(l1,l2,a/10));
+    }
+}
+```
+
+
 
 
 
