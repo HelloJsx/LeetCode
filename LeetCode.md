@@ -777,6 +777,53 @@ class Solution {
 }
 ```
 
+### 21.合并两个有序链表
+
+```java
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode res = new ListNode();
+        ListNode cur = res;
+        while(l1 != null && l2 != null){
+            if(l1.val <= l2.val){
+                cur.next = l1;
+                l1 = l1.next;
+            } else {
+                cur.next = l2;
+                l2 = l2.next;
+            }
+            cur = cur.next;
+        }
+        if(l1 == null) cur.next = l2;
+        if(l2 == null) cur.next = l1;
+        return res.next;
+    }
+}
+```
+
+
+
+## Stack
+
+### 20.有效的括号
+
+```java
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<Character>();
+        for(char c : s.toCharArray()){
+            if(c == '(') stack.push(')');
+            else if(c == '[') stack.push(']');
+            else if(c == '{') stack.push('}');
+            else if(stack.isEmpty() || c!= stack.pop()) return false;
+        }
+        return stack.isEmpty();
+    }
+}
+```
+
+
+
 
 
 
