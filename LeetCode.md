@@ -802,6 +802,52 @@ class Solution {
 ```
 
 
+### 22.括号生成
+
+```java
+class Solution {
+    List<String> res = new ArrayList<>();
+    public List<String> generateParenthesis(int n) {
+        dfs(n,n,"");
+        return res;
+    }
+
+    private void dfs(int left,int right,String cur){
+        if(left == 0 && right == 0) {
+            res.add(cur);
+            return;
+        }
+
+        if(left > 0){
+            dfs(left - 1,right,cur + "(");
+        }
+
+        if(right > left){
+            dfs(left,right - 1,cur + ")");
+        }
+    }
+}
+```
+
+
+### 24.两两交换链表中的值
+
+```java
+class Solution {
+    public ListNode swapPairs(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode next = head.next;
+        head.next = swapPairs(next.next);
+        next.next = head;
+        return next;
+    }
+}
+```
+
+
+
 
 ## Stack
 
